@@ -15,12 +15,18 @@ func read() string {
 
 func complier(input string) string {
 	tokens := initTokenizer(input).Tokenize()
-	//fmt.Println("tokens: ", tokens)
-	ast := initParser(tokens).parse()
-	fmt.Println("ast: ", ast)
-	tast := transformer(ast)
-	fmt.Println("transformed: ", tast)
-	return codeGen(tast)
+	fmt.Println("tokens:", tokens)
+
+	ast := initParser(tokens).Parse()
+	fmt.Println("ast:", ast)
+
+	transformer := Transformer{}
+	tast := transformer.Transform(ast)
+	fmt.Println("tast:", tast)
+
+	generator := CodeGenerator{}
+	code := generator.Generate(tast)
+	return code
 }
 
 func main() {
