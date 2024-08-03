@@ -26,7 +26,7 @@ const (
 	// types
 	IDENT
 	INT
-    FLOAT
+	FLOAT
 	STRING
 
 	// keywords
@@ -38,30 +38,32 @@ const (
 // a list of tokens indexed by their iota
 var tokens = [...]string{
 	COMMENT: "COMMENT",
-	LPAREN: "(",
-	RPAREN: ")",
-	QUOTE: "\"",
+	LPAREN:  "(",
+	RPAREN:  ")",
+	QUOTE:   "\"",
 
 	ASSIGN: "=",
 
-	ADD: "+",
-	SUB: "-",
+	ADD:  "+",
+	SUB:  "-",
 	MULT: "*",
-	DIV: "/",
+	DIV:  "/",
 
-	IDENT: "IDENT",
-	INT: "INT",
-	FLOAT: "FLOAT",
+	IDENT:  "IDENT",
+	INT:    "INT",
+	FLOAT:  "FLOAT",
 	STRING: "STRING",
 
 	FUNC: "func",
 }
+
 // keywords is a map of string -> int that maps the string value of a keyword to its iota value
 //
 // it is initialzed on run and contains all the keywords in between "keyword_start" and "keyword_end"
 var keywords map[string]tokenId
+
 func init() {
-	keywords = make(map[string]tokenId, keyword_end - (keyword_start + 1))
+	keywords = make(map[string]tokenId, keyword_end-(keyword_start+1))
 	for i := keyword_start + 1; i < keyword_end; i++ {
 		keywords[tokens[i]] = tokenId(i)
 	}
@@ -77,8 +79,8 @@ func keywordLookup(str string) tokenId {
 }
 
 type token struct {
-	kind tokenId
-	value string
+	kind     tokenId
+	value    string
 	position int
 }
 
@@ -135,8 +137,8 @@ func (t *tokenizer) getChar() string {
 }
 
 func (t *tokenizer) peek() string {
-	if t.current < len(t.runes) - 1 {
-		return string(t.runes[t.current + 1])
+	if t.current < len(t.runes)-1 {
+		return string(t.runes[t.current+1])
 	}
 	return ""
 }
@@ -182,8 +184,8 @@ func (t *tokenizer) Tokenize() []token {
 				t.consume() // ignore the final \n in the comment
 				tokens = append(tokens, token{kind: COMMENT, value: comment, position: t.current})
 			case "*":
-				t.consume() // consume '/'
-				t.consume() // consume '*'
+				t.consume()      // consume '/'
+				t.consume()      // consume '*'
 				ch = t.getChar() // start of the contents of the comment
 				comment := "/*"
 				fmt.Println(comment)

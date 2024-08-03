@@ -9,6 +9,7 @@ const (
 	// Literal Types
 	IntLiteral = iota
 	FloatLiteral
+	StringLiteral
 )
 
 type Node interface{}
@@ -101,6 +102,13 @@ func (p *Parser) getNode(binaryStep bool) Node {
 		return node
 	case p.currToken.kind == COMMENT:
 		node := Comment(p.currToken.value)
+		p.consume()
+		return node
+	case p.currToken.kind == STRING:
+		node := Literal{
+			Type:  StringLiteral,
+			Value: p.currToken.value,
+		}
 		p.consume()
 		return node
 	default:
