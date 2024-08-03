@@ -13,13 +13,19 @@ func read() string {
 	return string(data)
 }
 
+func complier(input string) string {
+	tokens := initTokenizer(input).Tokenize()
+	//fmt.Println("tokens: ", tokens)
+	ast := initParser(tokens).parse()
+	fmt.Println("ast: ", ast)
+	tast := transformer(ast)
+	fmt.Println("transformed: ", tast)
+	return codeGen(tast)
+}
+
 func main() {
 	//input := "pinkerton \"foo for bar is foo\" (10 + (10 - 6)) for"
 	input := read()
-
-	tokens := initTokenizer(input).Tokenize()
-	ast := initParser(tokens).parse()
-	tast := transformer(ast)
-	code := codeGen(tast)
+	code := complier(input)
 	fmt.Println(code)
 }

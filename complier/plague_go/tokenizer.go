@@ -82,6 +82,10 @@ type token struct {
 	position int
 }
 
+func (t token) String() string {
+	return "{" + tokens[t.kind] + ", " + t.value + "}"
+}
+
 func (t token) IsOperator() bool {
 	return (operator_begin < t.kind && t.kind < operator_end)
 }
