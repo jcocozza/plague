@@ -10,6 +10,8 @@ const (
 
 	LPAREN
 	RPAREN
+	LBRACE
+	RBRACE
 	QUOTE
 
 	operator_begin
@@ -32,6 +34,10 @@ const (
 	// keywords
 	keyword_start
 	FUNC
+
+	INT_TYPE
+	FLOAT_TYPE
+	STRING_TYPE
 	keyword_end
 )
 
@@ -40,6 +46,8 @@ var tokens = [...]string{
 	COMMENT: "COMMENT",
 	LPAREN:  "(",
 	RPAREN:  ")",
+	LBRACE:  "{",
+	RBRACE:  ")",
 	QUOTE:   "\"",
 
 	ASSIGN: "=",
@@ -55,6 +63,9 @@ var tokens = [...]string{
 	STRING: "STRING",
 
 	FUNC: "func",
+	INT_TYPE: "int",
+	FLOAT_TYPE: "float",
+	STRING_TYPE: "string",
 }
 
 // keywords is a map of string -> int that maps the string value of a keyword to its iota value
@@ -157,6 +168,14 @@ func (t *tokenizer) Tokenize() []token {
 			continue
 		case ch == ")":
 			tokens = append(tokens, token{kind: RPAREN, value: ")", position: t.current})
+			t.consume()
+			continue
+		case ch == "{":
+			tokens = append(tokens, token{kind: LBRACE, value: "}", position: t.current})
+			t.consume()
+			continue
+		case ch == "}":
+			tokens = append(tokens, token{kind: RBRACE, value: "}", position: t.current})
 			t.consume()
 			continue
 		case ch == "+":

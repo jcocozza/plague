@@ -31,6 +31,17 @@ func (cg *CodeGenerator) Generate(node Node) string {
 		return "(" + inner + ")"
 	case Identifier:
 		return n.Name
+	case Function:
+		str := fmt.Sprintf("func %s(", n.Name)
+		for i, ag := range n.Arguements {
+			if i < len(n.Arguements) - 1 {
+				str += fmt.Sprintf("%s %s,", ag.Name, tokens[ag.Type])
+			} else {
+				str += fmt.Sprintf("%s %s", ag.Name, tokens[ag.Type])
+			}
+		}
+		str += ") {}"
+		return str
 	default:
 		fmt.Println("default hit for:", n)
 		nodeType := reflect.TypeOf(node)

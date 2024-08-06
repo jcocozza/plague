@@ -23,5 +23,5 @@ func isLetter(char string) bool {
     }
 
     rn := []rune(char)[0]
-    return rn >= 'a' && rn <= 'z'
+    return (rn >= 'a' && rn <= 'z') || (rn >= 'A' && rn <= 'Z')
 }

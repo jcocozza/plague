@@ -53,6 +53,16 @@ func TestIsLetter(t *testing.T) {
 		{"h", true},
 		{"i", true},
 		{"j", true},
+		{"A", true},
+		{"B", true},
+		{"C", true},
+		{"D", true},
+		{"E", true},
+		{"F", true},
+		{"G", true},
+		{"H", true},
+		{"I", true},
+		{"J", true},
 	}
 
 	for _, tt := range tests {

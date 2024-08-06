@@ -40,6 +40,16 @@ type BinaryOperator struct {
 	Right Node
 }
 
+type Arg struct {
+	Name string
+	Type int
+}
+
+type Function struct {
+	Name string
+	Arguements []Arg
+}
+
 type Parser struct {
 	loc       int
 	tokens    []token
@@ -86,6 +96,39 @@ func (p *Parser) getNode(binaryStep bool) Node {
 		operatorNode.Left = left
 		operatorNode.Right = p.getNode(false)
 		return operatorNode
+	case p.currToken.kind == FUNC:
+		node := Function{
+			Name: "",
+			Arguements: []Arg{},
+		}
+		p.consume() // consume 'func'
+
+		funcName := p.currToken.value
+		node.Name = funcName
+		p.consume() // consume function name
+
+		p.consume() // consume '('
+		for p.currToken.kind != RPAREN {
+			name := p.currToken.value
+			p.consume()
+			typ := p.currToken.kind
+			p.consume()
+			arg := Arg{
+				Name: name,
+				Type: int(typ),
+			}
+			fmt.Println(arg)
+			node.Arguements = append(node.Arguements, arg)
+		}
+		p.consume() // consume the ')'
+		p.consume() // consume the '{'
+		for p.currToken.kind != RBRACE {
+			fmt.Println("consuming func content")
+			// consume the function here
+			p.consume()
+		}
+		p.consume() // consume the '}'
+		return node
 	case p.currToken.kind == INT:
 		node := Literal{
 			Type:  INT,
